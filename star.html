@@ -44,14 +44,20 @@
       </div> -->
   </div>
 
-  <!-- 分页组件 -->
-  <div class="flex justify-center mt-6">
-    <div class="join">
-      <button id="prevPage" class="join-item btn btn-sm">«</button>
-      <span id="paginationInfo" class="join-item btn btn-sm">1 / 1</span>
-      <button id="nextPage" class="join-item btn btn-sm">»</button>
+    <!-- 分页组件 -->
+    <div class="flex justify-center items-center mt-6 p-5">
+        <div class="join">
+        <button id="prevPage" class="join-item btn btn-sm">«</button>
+        <span id="paginationInfo" class="join-item btn btn-sm">1 / 1</span>
+        <button id="nextPage" class="join-item btn btn-sm">»</button>
+        </div>
+    
+        <!-- 手动跳转输入框 -->
+        <div class="ml-4 flex items-center justify-center">
+        <input id="pageInput" type="number" min="1" class="input input-bordered w-20" placeholder="跳转页" />
+        <button id="jumpBtn" class="btn btn-sm btn-primary ml-2">跳转</button>
+        </div>
     </div>
-  </div>
 
 
   <script src="star.js"></script>

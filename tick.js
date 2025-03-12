@@ -62,9 +62,39 @@ function displayWordList() {
 function updatePagination() {
   const totalPages = Math.ceil(words.length / wordsPerPage);
   document.getElementById("paginationInfo").textContent = `${currentPage} / ${totalPages}`;
+
   document.getElementById("prevPage").disabled = currentPage === 1;
   document.getElementById("nextPage").disabled = currentPage === totalPages;
+
+  // 更新 URL 中的页码，使用浏览器的 History API
+  history.replaceState(null, null, `?page=${currentPage}`);
 }
+
+// 在页面加载时，读取 URL 参数来确定当前页
+document.addEventListener('DOMContentLoaded', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const page = parseInt(urlParams.get('page'), 10);
+
+  // 如果 URL 中有有效的页码参数，设置为当前页
+  if (page && page > 0 && page <= Math.ceil(words.length / wordsPerPage)) {
+    currentPage = page;
+  }
+
+  displayWordList();
+});
+
+// 添加跳转功能
+document.getElementById("jumpBtn").addEventListener("click", () => {
+  const pageInput = document.getElementById("pageInput");
+  const targetPage = parseInt(pageInput.value, 10);
+
+  if (targetPage && targetPage > 0 && targetPage <= Math.ceil(words.length / wordsPerPage)) {
+    currentPage = targetPage;
+    displayWordList();
+  } else {
+    alert("请输入有效的页码！");
+  }
+});
 
 document.getElementById("prevPage").addEventListener("click", () => {
   if (currentPage > 1) {

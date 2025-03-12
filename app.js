@@ -55,6 +55,7 @@ function updateWordCard() {
     const word = words[currentIndex];
     wordElement.textContent = word.title;
     definitionTextElement.textContent = word.text;
+    console.log(definitionTextElement.textContent)
   }
 
   

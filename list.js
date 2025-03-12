@@ -46,7 +46,7 @@ function displayWordList() {
         <!-- 收藏按钮 -->
         <div class="flex items-center">
           <label class="rating">
-            <input type="checkbox" class="favoriteCheckbox mask mask-star" data-word="${word.title}" ${favoriteWords.includes(word.title) ? 'checked' : ''} />
+            <input type="checkbox" class="favoriteCheckbox mask mask-star border-indigo-600 bg-indigo-500 checked:bg-orange-400 checked:text-orange-800 checked:border-orange-500" data-word="${word.title}" ${favoriteWords.includes(word.title) ? 'checked' : ''} />
           </label>
         </div>
         

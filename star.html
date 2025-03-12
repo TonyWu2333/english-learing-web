@@ -13,22 +13,28 @@
 
   <!-- 导航栏 -->
   <div class="navbar bg-base-100 shadow-sm">
-    <div class="flex-1">
+    <div class="flex-1 text-left">
       <a class="btn btn-ghost text-xl">T-ON-Y の English Learning 小站</a>
     </div>
-    <div class="flex-none">
-      <ul class="menu menu-horizontal px-1">
-        <li><a href="index.html">卡片</a></li>
-        <li><a href="list.html">列表</a></li>
-        <li><a href="star.html">收藏</a></li>
-        <li><a href="tick.html">熟记</a></li>
-        <li><a href="setting.html">设置</a></li>
-      </ul>
-      <button id="exportBtn" class="btn btn-sm btn-primary mx-2">导出数据</button>
-      <label id="importBtn" class="btn btn-sm btn-secondary">导入数据</label>
-      <input type="file" id="importFile" class="hidden" accept=".json" />
+    <div class="flex-1 text-center">
+      <input id="searchInput" type="text" placeholder="搜索词库内单词并回车" class="input input-bordered w-1/2" />
     </div>
-  </div>  
+    <div class="flex-1 text-right">
+      <div class="flex items-center justify-end space-x-4">
+        <!-- 使用 flex-row 来确保链接是水平排列的 -->
+        <ul class="menu menu-horizontal px-1 inline-flex space-x-1">
+          <li><a href="index.html">卡片</a></li>
+          <li><a href="list.html">列表</a></li>
+          <li><a href="star.html">收藏</a></li>
+          <li><a href="tick.html">熟记</a></li>
+          <li><a href="setting.html">设置</a></li>
+        </ul>
+        <button id="exportBtn" class="btn btn-sm btn-primary mx-2">导出数据</button>
+        <label id="importBtn" class="btn btn-sm btn-secondary">导入数据</label>
+        <input type="file" id="importFile" class="hidden" accept=".json" />
+      </div>
+    </div>
+  </div> 
 
   <!-- 主内容区 -->
   <div id="wordList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 mt-6 w-7/13 mx-auto">

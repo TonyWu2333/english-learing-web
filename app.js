@@ -1,3 +1,4 @@
+
 let words = [];
 let currentIndex = 0;
 const wordElement = document.getElementById("word");
@@ -50,9 +51,12 @@ function updateWordCard() {
   definitionTextElement.classList.remove('opacity-100');
   definitionTextElement.classList.add('opacity-0');
   
-  const word = words[currentIndex];
-  wordElement.textContent = word.title;
-  definitionTextElement.textContent = word.text;
+  if (currentIndex !== -1) {
+    const word = words[currentIndex];
+    wordElement.textContent = word.title;
+    definitionTextElement.textContent = word.text;
+  }
+
   
   // 更新熟记按钮的样式
   if (memorizedWords.includes(wordElement.textContent)) {
@@ -271,9 +275,65 @@ document.getElementById("importBtn").addEventListener("click", () => {
   input.click();
 });
 
+const searchInput = document.getElementById("searchInput");
+
+// 按回车键时触发搜索
+searchInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    const searchWord = searchInput.value.trim();
+    if (searchWord) {
+      // 查找单词并展示详细信息
+      searchAndDisplayWord(searchWord);
+    }
+  }
+});
+
+function searchAndDisplayWord(word) {
+  // 如果当前不在 index.html，跳转并传递单词作为 URL 参数
+  if (!window.location.pathname.endsWith("index.html") && !window.location.pathname.endsWith("/")) {
+    window.location.href = `index.html?search=${encodeURIComponent(word)}`;
+    return;
+  }
+
+  console.log("当前在 index.html，执行搜索逻辑");
+
+  // 在当前单词列表中查找匹配的单词
+  const foundWord = words.find(item => item.title.toLowerCase() === word.toLowerCase());
+
+  if (foundWord) {
+    wordElement.textContent = foundWord.title;
+    definitionTextElement.textContent = foundWord.text;
+    currentIndex = words.indexOf(foundWord);
+    updateWordCard();
+  } else {
+    currentIndex = -1;
+    wordElement.textContent = word;
+    definitionTextElement.textContent = "此单词不在词库中";
+    updateWordCard();
+  }
+
+  // 生成例句
+  generateExampleSentence(word);
+}
+
+window.onload = function () {
+  // 解析 URL 参数
+  const params = new URLSearchParams(window.location.search);
+  const searchWord = params.get("search");
+
+  // 如果 URL 里带有搜索单词，就执行搜索
+  if (searchWord) {
+    searchAndDisplayWord(searchWord);
+  }
+};
+
+
+
 
 // Initialize
 fetchWords();
 
 prevBtn.addEventListener("click", showPrevWord);
 nextBtn.addEventListener("click", showNextWord);
+
+

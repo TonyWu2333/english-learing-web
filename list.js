@@ -191,5 +191,24 @@ document.getElementById("exportBtn").addEventListener("click", () => {
     input.click();
   });
 
+  // 按回车键时触发搜索
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      const searchWord = searchInput.value.trim();
+      if (searchWord) {
+        // 查找单词并展示详细信息
+        searchAndDisplayWord(searchWord);
+      }
+    }
+  });
+
+  function searchAndDisplayWord(word) {
+    // 如果当前不在 index.html，跳转并传递单词作为 URL 参数
+    if (!window.location.pathname.endsWith("index.html") && !window.location.pathname.endsWith("/")) {
+      window.location.href = `index.html?search=${encodeURIComponent(word)}`;
+      return;
+    }
+  }
+
 // 初始化
 fetchWords();

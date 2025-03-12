@@ -52,6 +52,7 @@ function updateWordCard() {
   definitionTextElement.classList.add('opacity-0');
   
   if (currentIndex !== -1) {
+    generateExampleBtn.classList.remove("hidden");
     const word = words[currentIndex];
     wordElement.textContent = word.title;
     definitionTextElement.textContent = word.text;
@@ -297,6 +298,8 @@ function searchAndDisplayWord(word) {
   }
 
   console.log("当前在 index.html，执行搜索逻辑");
+
+  generateExampleBtn.classList.add("hidden");
 
   // 在当前单词列表中查找匹配的单词
   const foundWord = words.find(item => item.title.toLowerCase() === word.toLowerCase());

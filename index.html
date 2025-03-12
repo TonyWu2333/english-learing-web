@@ -1,0 +1,77 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>背单词</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.2/themes.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="bg-gray-200" data-theme="emerald">
+
+  <!-- 导航栏 -->
+  <div class="navbar bg-base-100 shadow-sm">
+    <div class="flex-1">
+      <a class="btn btn-ghost text-xl">T-ON-Y の English Learning 小站</a>
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal px-1">
+        <li><a href="index.html">卡片</a></li>
+        <li><a href="list.html">列表</a></li>
+      </ul>
+      <button id="exportBtn" class="btn btn-sm btn-primary mx-2">导出数据</button>
+      <label id="importBtn" class="btn btn-sm btn-secondary">导入数据</label>
+      <input type="file" id="importFile" class="hidden" accept=".json" />
+    </div>
+  </div> 
+
+  <!-- 主内容区 -->
+  <div class="flex-1 p-4 flex items-center justify-center min-h-screen">
+    <!-- 父容器，flex 布局 -->
+    <div class="flex items-center justify-center relative w-full">
+
+      <!-- 左侧按钮 -->
+      <button id="prevBtn" class="btn btn-soft btn-secondary mx-4">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+
+      <!-- 卡片容器 -->
+      <div id="card" class="bg-white shadow-xl rounded-xl p-8 max-w-sm w-full text-center relative z-10 opacity-0 transform translate-y-10 transition-all duration-500">
+        <!-- 单词区域 -->
+        <div class="flex items-center justify-between mb-4">
+          <!-- 收藏按钮 -->
+          <div class="flex items-center">
+            <label for="favoriteCheckbox" class="rating">
+              <input type="checkbox" id="favoriteCheckbox" class="mask mask-star" />
+            </label>
+          </div>
+
+          <!-- 单词 -->
+          <h1 id="word" class="text-3xl font-semibold">emperor</h1>
+
+          <!-- 熟记按钮 -->
+          <div class="flex items-center">
+            <button id="memorizedBtn" class="btn btn-sm">熟</button> <!-- 用于熟记的按钮 -->
+          </div>
+        </div>
+
+        <!-- 中文定义区域 -->
+        <p id="definition" onclick="toggleDefinition()" class="mt-8 bg-gray-100 rounded-lg px-2 py-6 text-lg text-gray-700 opacity-100 hover:bg-gray-300 transition-opacity duration-300 cursor-pointer">
+          <span id="definitionText">皇帝；君主</span>
+        </p>
+      </div>
+
+      <!-- 右侧按钮 -->
+      <button id="nextBtn" class="btn btn-soft btn-secondary mx-4">
+        <i class="fas fa-arrow-right"></i>
+      </button>
+
+    </div>
+  </div>
+
+
+  <script src="app.js"></script>
+</body>
+</html>

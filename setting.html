@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>背单词 - 列表模式</title>
+  <title>背单词</title>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.2/themes.css" rel="stylesheet" type="text/css" />
 </head>
-<body class="bg-gray-200 min-h-screen" data-theme="emerald">
+<body class="bg-gray-200" data-theme="emerald">
 
   <!-- 导航栏 -->
   <div class="navbar bg-base-100 shadow-sm">
@@ -28,26 +28,31 @@
       <label id="importBtn" class="btn btn-sm btn-secondary">导入数据</label>
       <input type="file" id="importFile" class="hidden" accept=".json" />
     </div>
-  </div>  
+  </div> 
 
   <!-- 主内容区 -->
-  <div id="wordList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 mt-6 w-7/13 mx-auto">
-    <!-- <div class="flex justify-center items-center mx-auto h-[50vh] w-auto">
-        <span class="loading loading-spinner loading-lg"></span>
-        <p class="ml-4 text-lg text-gray-500">正在加载单词...</p>
-      </div> -->
-  </div>
-
-  <!-- 分页组件 -->
-  <div class="flex justify-center mt-6">
-    <div class="join">
-      <button id="prevPage" class="join-item btn btn-sm">«</button>
-      <span id="paginationInfo" class="join-item btn btn-sm">1 / 1</span>
-      <button id="nextPage" class="join-item btn btn-sm">»</button>
+  <div class="items-center justify-center min-h-screen">
+    <!-- API Key 表单 -->
+    <div class="card w-96 bg-base-100 shadow-xl mx-auto p-5 m-8">
+      <h2 class="text-xl mb-4">模型设置</h2>
+      <form id="apiKeyForm">
+        <div class="form-control mb-4">
+          <label class="label">
+            <span class="label-text">请输入 API 密钥</span>
+          </label>
+          <input id="apiKeyInput" type="text" placeholder="请输入 API 密钥" class="input input-bordered w-full" />
+        </div>
+        <div class="form-control mb-4">
+          <label class="label">
+            <span class="label-text">请输入模型名称</span>
+          </label>
+          <input id="modelNameInput" type="text" placeholder="请输入模型名称" class="input input-bordered w-full" />
+        </div>
+        <button type="submit" class="btn btn-primary w-full">保存设置</button>
+      </form>
     </div>
   </div>
 
-
-  <script src="list.js"></script>
+  <script src="setting.js"></script>
 </body>
 </html>

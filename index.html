@@ -20,6 +20,9 @@
       <ul class="menu menu-horizontal px-1">
         <li><a href="index.html">卡片</a></li>
         <li><a href="list.html">列表</a></li>
+        <li><a href="star.html">收藏</a></li>
+        <li><a href="tick.html">熟记</a></li>
+        <li><a href="setting.html">设置</a></li>
       </ul>
       <button id="exportBtn" class="btn btn-sm btn-primary mx-2">导出数据</button>
       <label id="importBtn" class="btn btn-sm btn-secondary">导入数据</label>
@@ -61,7 +64,12 @@
         <p id="definition" onclick="toggleDefinition()" class="mt-8 bg-gray-100 rounded-lg px-2 py-6 text-lg text-gray-700 opacity-100 hover:bg-gray-300 transition-opacity duration-300 cursor-pointer">
           <span id="definitionText">皇帝；君主</span>
         </p>
+        <p id="exampleSentence" class="mt-4 text-gray-600 italic"></p>
+        <button id="generateExampleBtn" class="btn btn-primary">生成例句</button>
       </div>
+
+      
+
 
       <!-- 右侧按钮 -->
       <button id="nextBtn" class="btn btn-soft btn-secondary mx-4">

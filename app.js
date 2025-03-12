@@ -8,6 +8,12 @@ const memorizedBtn = document.getElementById("memorizedBtn");
 const favoriteCheckbox = document.getElementById("favoriteCheckbox");
 const cardElement = document.getElementById("card");
 
+const generateExampleBtn = document.getElementById("generateExampleBtn");
+const exampleSentenceElement = document.createElement("p");
+exampleSentenceElement.id = "exampleSentence";
+exampleSentenceElement.className = "mt-4 text-gray-600 italic";
+cardElement.appendChild(exampleSentenceElement);
+
 // 从浏览器本地存储加载熟记和收藏数据
 let memorizedWords = JSON.parse(localStorage.getItem('memorizedWords')) || [];
 let favoriteWords = JSON.parse(localStorage.getItem('favoriteWords')) || [];
@@ -27,6 +33,8 @@ function fetchWords() {
 }
 
 function updateWordCard() {
+  exampleSentenceElement.textContent=''
+  generateExampleBtn.textContent = "生成例句";
 
   // 触发卡片动画
   cardElement.classList.remove('opacity-0', 'transform', 'translate-y-10');
@@ -51,7 +59,79 @@ function updateWordCard() {
   } else {
     favoriteCheckbox.checked = false;
   }
+
 }
+
+// 为生成例句按钮添加点击事件
+generateExampleBtn.addEventListener("click", () => {
+
+  generateExampleBtn.textContent = "重新生成";
+
+  // 获取当前单词
+  const word = words[currentIndex].title;
+
+  // 调用AI接口生成例句
+  generateExampleSentence(word);
+});
+
+// 更新生成例句的函数
+function generateExampleSentence(word) {
+
+  // 从 localStorage 获取 API 密钥和模型名称
+  const apiKey = localStorage.getItem('apiKey');
+  const modelName = localStorage.getItem('modelName');
+
+  // 如果没有找到 API 密钥或模型名称，提示用户
+  if (!apiKey || !modelName) {
+    exampleSentenceElement.textContent = "未找到API密钥或模型名称，请在设置中输入相关信息。";
+    return;
+  }
+
+  // 初始化计数器和句点
+  let dotCount = 1;
+  const loadingText = "AI生成中";
+  exampleSentenceElement.textContent = loadingText + ".".repeat(dotCount);
+  exampleSentenceElement.classList.add("text-gray-400"); // 给“AI生成中”添加灰色文本样式
+  
+  // 使用定时器动态增加句点
+  const dotInterval = setInterval(() => {
+    dotCount = (dotCount % 3) + 1;  // 控制句点数量循环在1至3之间
+    exampleSentenceElement.textContent = loadingText + ".".repeat(dotCount);
+  }, 500);  // 每500ms更新一次
+
+  // 调用API生成例句
+  fetch("https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": `${apiKey}`,  // 使用从 localStorage 获取的 API 密钥
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      "model": modelName,  // 使用从 localStorage 获取的模型名称
+      "messages": [{ "role": "user", "content": `请为 ${word} 这个单词造1个例句,格式为 'Example:sentence'，不要有多余的回答` }],
+      "stream": false,
+      "temperature": 1.8
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    clearInterval(dotInterval);  // 停止句点变化
+    if (data.choices && data.choices.length > 0) {
+      exampleSentenceElement.textContent = `${data.choices[0].message.content}`;
+      exampleSentenceElement.classList.remove("text-gray-400"); // 移除灰色文本样式
+    } else {
+      exampleSentenceElement.textContent = "无法获取例句";
+      exampleSentenceElement.classList.remove("text-gray-400");
+    }
+  })
+  .catch(error => {
+    clearInterval(dotInterval);  // 停止句点变化
+    console.error("Error generating example sentence:", error);
+    exampleSentenceElement.textContent = "获取例句失败";
+    exampleSentenceElement.classList.remove("text-gray-400");
+  });
+}
+
 
 function showNextWord() {
   if (currentIndex < words.length - 1) {

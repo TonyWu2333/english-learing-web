@@ -1,6 +1,9 @@
 let words = [];
 const wordListElement = document.getElementById("wordList");
 
+let currentPage = 1;
+const wordsPerPage = 12;
+
 // 从浏览器本地存储加载熟记和收藏数据
 let memorizedWords = JSON.parse(localStorage.getItem('memorizedWords')) || [];
 let favoriteWords = JSON.parse(localStorage.getItem('favoriteWords')) || [];
@@ -19,7 +22,13 @@ function fetchWords() {
 
 function displayWordList() {
   wordListElement.innerHTML = ''; // 清空当前列表
-  words.forEach((word, index) => {
+
+  // 计算分页
+  const start = (currentPage - 1) * wordsPerPage;
+  const end = start + wordsPerPage;
+  const paginatedWords = words.slice(start, end);
+
+  paginatedWords.forEach((word, index) => {
     const wordCard = document.createElement('div');
     wordCard.classList.add('bg-white', 'shadow-xl', 'rounded-xl', 'p-4', 'text-center', 'relative', 'opacity-0', 'transform', 'translate-y-10', 'transition-all', 'duration-700');
     
@@ -54,9 +63,32 @@ function displayWordList() {
     }, 1 * index); // 每个卡片延迟0.1秒出现
   });
 
+  updatePagination();
   // 添加事件监听器
   addEventListeners();
 }
+
+function updatePagination() {
+  const totalPages = Math.ceil(words.length / wordsPerPage);
+  document.getElementById("paginationInfo").textContent = `${currentPage} / ${totalPages}`;
+
+  document.getElementById("prevPage").disabled = currentPage === 1;
+  document.getElementById("nextPage").disabled = currentPage === totalPages;
+}
+
+document.getElementById("prevPage").addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    displayWordList();
+  }
+});
+
+document.getElementById("nextPage").addEventListener("click", () => {
+  if (currentPage < Math.ceil(words.length / wordsPerPage)) {
+    currentPage++;
+    displayWordList();
+  }
+});
 
 function addEventListeners() {
   // 添加收藏按钮的事件监听器

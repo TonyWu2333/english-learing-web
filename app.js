@@ -116,7 +116,7 @@ function generateExampleSentence(word) {
     },
     body: JSON.stringify({
       "model": modelName,  // 使用从 localStorage 获取的模型名称
-      "messages": [{ "role": "user", "content": `请为 ${word} 这个单词提供1个英语解释,造1个例句,提供1个近义词和1个反义词,格式为 'Explain:sentence <br> Example:sentence <br> Synonym:word <br> Antonym:word'，不要有多余的回答` }],
+      "messages": [{ "role": "user", "content": `请为 ${word} 这个单词提供1个英语解释,造1个例句,提供1个近义词和1个反义词,格式为 'Explain:sentence <br> Example:sentence <br> Synonym:word <br> Antonym:word'，不要有多余的回答，且不允许出现中文` }],
       "stream": false,
       "temperature": 1.8
     })

@@ -7,6 +7,14 @@ const wordsPerPage = 12;
 // 从浏览器本地存储加载熟记数据
 let memorizedWords = JSON.parse(localStorage.getItem('memorizedWords')) || [];
 
+// 加载主题并应用
+document.addEventListener('DOMContentLoaded', function() {
+  // 从 localStorage 获取已保存的主题
+  const savedTheme = localStorage.getItem('theme') || 'emerald';  // 默认主题是 emerald
+  document.body.setAttribute('data-theme', savedTheme);
+  document.getElementById('themeSelect').value = savedTheme;
+});
+
 function fetchWords() {
   fetch('words.json')
     .then(response => response.json())

@@ -32,7 +32,7 @@
 
   <!-- 主内容区 -->
   <div class="items-center justify-center min-h-screen">
-    <!-- API Key 表单 -->
+    <!-- 模型设置表单 -->
     <div class="card w-96 bg-base-100 shadow-xl mx-auto p-5 m-8">
       <h2 class="text-xl mb-4">模型设置</h2>
       <form id="apiKeyForm">
@@ -49,6 +49,24 @@
           <input id="modelNameInput" type="text" placeholder="请输入模型名称" class="input input-bordered w-full" />
         </div>
         <button type="submit" class="btn btn-primary w-full">保存设置</button>
+      </form>
+    </div>
+
+    <!-- 主题设置表单 -->
+    <div class="card w-96 bg-base-100 shadow-xl mx-auto p-5 m-8">
+      <h2 class="text-xl mb-4">主题设置</h2>
+      <form id="themeForm">
+        <div class="form-control mb-4">
+          <label class="label">
+            <span class="label-text">选择主题</span>
+          </label>
+          <select id="themeSelect" class="select select-bordered w-full">
+            <option value="light">Light</option>
+            <option value="cupcake">Cupcake</option>
+            <option value="emerald">Emerald</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-full">保存主题</button>
       </form>
     </div>
   </div>

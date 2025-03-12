@@ -18,6 +18,14 @@ cardElement.appendChild(exampleSentenceElement);
 let memorizedWords = JSON.parse(localStorage.getItem('memorizedWords')) || [];
 let favoriteWords = JSON.parse(localStorage.getItem('favoriteWords')) || [];
 
+// 加载主题并应用
+document.addEventListener('DOMContentLoaded', function() {
+  // 从 localStorage 获取已保存的主题
+  const savedTheme = localStorage.getItem('theme') || 'emerald';  // 默认主题是 emerald
+  document.body.setAttribute('data-theme', savedTheme);
+  document.getElementById('themeSelect').value = savedTheme;
+});
+
 function fetchWords() {
   fetch('words.json')
     .then(response => response.json())
@@ -34,7 +42,7 @@ function fetchWords() {
 
 function updateWordCard() {
   exampleSentenceElement.textContent=''
-  generateExampleBtn.textContent = "生成例句";
+  generateExampleBtn.textContent = "AI生成";
 
   // 触发卡片动画
   cardElement.classList.remove('opacity-0', 'transform', 'translate-y-10');
@@ -108,7 +116,7 @@ function generateExampleSentence(word) {
     },
     body: JSON.stringify({
       "model": modelName,  // 使用从 localStorage 获取的模型名称
-      "messages": [{ "role": "user", "content": `请为 ${word} 这个单词造1个例句,格式为 'Example:sentence'，不要有多余的回答` }],
+      "messages": [{ "role": "user", "content": `请为 ${word} 这个单词提供1个英语解释,造1个例句,提供1个近义词和1个反义词,格式为 'Explain:sentence <br> Example:sentence <br> Synonym:word <br> Antonym:word'，不要有多余的回答` }],
       "stream": false,
       "temperature": 1.8
     })
@@ -117,7 +125,7 @@ function generateExampleSentence(word) {
   .then(data => {
     clearInterval(dotInterval);  // 停止句点变化
     if (data.choices && data.choices.length > 0) {
-      exampleSentenceElement.textContent = `${data.choices[0].message.content}`;
+      exampleSentenceElement.innerHTML = `${data.choices[0].message.content}`;
       exampleSentenceElement.classList.remove("text-gray-400"); // 移除灰色文本样式
     } else {
       exampleSentenceElement.textContent = "无法获取例句";

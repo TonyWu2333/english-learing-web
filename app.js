@@ -17,20 +17,27 @@ function fetchWords() {
     .then(response => response.json())
     .then(data => {
       words = Object.values(data); // 将对象转为数组
+      // 查找下一个未熟记的单词
+      while (memorizedWords.includes(words[currentIndex].title) && currentIndex < words.length - 1) {
+        currentIndex++;
+      }
       updateWordCard();
     })
     .catch(error => console.error('Error fetching words:', error));
 }
 
 function updateWordCard() {
+
   // 触发卡片动画
   cardElement.classList.remove('opacity-0', 'transform', 'translate-y-10');
   cardElement.classList.add('opacity-100', 'transform', 'translate-y-0', 'transition-all', 'duration-500');
   definitionTextElement.classList.remove('opacity-100');
   definitionTextElement.classList.add('opacity-0');
+  
   const word = words[currentIndex];
   wordElement.textContent = word.title;
   definitionTextElement.textContent = word.text;
+  
   // 更新熟记按钮的样式
   if (memorizedWords.includes(wordElement.textContent)) {
     memorizedBtn.classList.add('btn-success');
@@ -46,10 +53,13 @@ function updateWordCard() {
   }
 }
 
-
 function showNextWord() {
   if (currentIndex < words.length - 1) {
     currentIndex++;
+    // 查找下一个未熟记的单词
+    while (memorizedWords.includes(words[currentIndex].title) && currentIndex < words.length - 1) {
+      currentIndex++;
+    }
     updateWordCard();
     // 给上下按钮添加动画
     nextBtn.classList.remove('scale-100');
@@ -60,7 +70,19 @@ function showNextWord() {
 
 function showPrevWord() {
   if (currentIndex > 0) {
+    let originalIndex = currentIndex;
     currentIndex--;
+
+    // 查找上一个未熟记的单词
+    while (memorizedWords.includes(words[currentIndex].title) && currentIndex > 0) {
+      currentIndex--;
+    }
+
+    // 如果找到的单词仍然是熟记单词，并且已经跳到最前面，则保持原本单词不变
+    if (memorizedWords.includes(words[currentIndex].title) && currentIndex === 0) {
+      currentIndex = originalIndex;
+    }
+
     updateWordCard();
     // 给上下按钮添加动画
     prevBtn.classList.remove('scale-100');
@@ -68,6 +90,8 @@ function showPrevWord() {
     setTimeout(() => prevBtn.classList.remove('scale-90'), 300);
   }
 }
+
+
 
 function toggleDefinition() {
   definitionTextElement.classList.toggle('opacity-100');

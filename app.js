@@ -19,7 +19,7 @@ cardElement.appendChild(exampleSentenceElement);
 let memorizedWords = JSON.parse(localStorage.getItem('memorizedWords')) || [];
 let favoriteWords = JSON.parse(localStorage.getItem('favoriteWords')) || [];
 
-const URL = localStorage.getItem('URL');
+const aiURL = localStorage.getItem('URL');
 
 // 加载主题并应用
 document.addEventListener('DOMContentLoaded', function() {
@@ -116,7 +116,7 @@ function generateExampleSentence(word) {
   }, 500);  // 每500ms更新一次
 
   // 调用API生成例句
-  fetch(URL, {
+  fetch(aiURL, {
     //
     method: "POST",
     headers: {

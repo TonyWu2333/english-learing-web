@@ -19,6 +19,8 @@ cardElement.appendChild(exampleSentenceElement);
 let memorizedWords = JSON.parse(localStorage.getItem('memorizedWords')) || [];
 let favoriteWords = JSON.parse(localStorage.getItem('favoriteWords')) || [];
 
+const URL = localStorage.getItem('URL');
+
 // 加载主题并应用
 document.addEventListener('DOMContentLoaded', function() {
   // 从 localStorage 获取已保存的主题
@@ -114,7 +116,8 @@ function generateExampleSentence(word) {
   }, 500);  // 每500ms更新一次
 
   // 调用API生成例句
-  fetch("https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions", {
+  fetch(URL, {
+    //
     method: "POST",
     headers: {
       "Authorization": `${apiKey}`,  // 使用从 localStorage 获取的 API 密钥
@@ -123,8 +126,7 @@ function generateExampleSentence(word) {
     body: JSON.stringify({
       "model": modelName,  // 使用从 localStorage 获取的模型名称
       "messages": [{ "role": "user", "content": `请为 ${word} 这个单词提供1个英语解释,造1个例句,提供1个近义词和1个反义词,格式为 'Explain:sentence <br> Example:sentence <br> Synonym:word <br> Antonym:word'，不要有多余的回答，且不允许出现中文` }],
-      "stream": false,
-      "temperature": 1.3
+      "stream": false
     })
   })
   .then(response => response.json())
@@ -135,6 +137,7 @@ function generateExampleSentence(word) {
       exampleSentenceElement.innerHTML = `${data.choices[0].message.content}`;
       exampleSentenceElement.classList.remove("text-gray-400"); // 移除灰色文本样式
     } else {
+      console.log(data)
       exampleSentenceElement.textContent = "无法获取例句";
       exampleSentenceElement.classList.remove("text-gray-400");
     }

@@ -2,9 +2,11 @@
 window.onload = () => {
     const savedApiKey = localStorage.getItem('apiKey');
     const savedmodelName = localStorage.getItem('modelName');
+    const selectedURL = localStorage.getItem('selectedURL');
     if (savedApiKey) {
       document.getElementById('apiKeyInput').value = savedApiKey;
       document.getElementById('modelNameInput').value = savedmodelName;
+      document.getElementById('URLSelect').value = selectedURL;
     }
   };
 
@@ -15,10 +17,25 @@ document.getElementById('apiKeyForm').addEventListener('submit', function(event)
     // 获取输入的 API 密钥和模型名称
     const apiKey = document.getElementById('apiKeyInput').value;
     const modelName = document.getElementById('modelNameInput').value;
+    const selectedURL = document.getElementById('URLSelect').value;
+    let URL="";
+    switch (selectedURL) {
+      case "aliyun":
+        URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
+         break;
+      case "glm":
+        URL = "https://open.bigmodel.cn/api/paas/v4/chat/completions";
+         break;
+      default:
+        URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
+    } 
   
     // 保存到 localStorage
     localStorage.setItem('apiKey', apiKey);
     localStorage.setItem('modelName', modelName);
+    localStorage.setItem('selectedURL', selectedURL);
+    localStorage.setItem('URL', URL);
+    console.log(URL)
   
     // 提示用户保存成功
     alert("设置已保存！");
@@ -41,22 +58,22 @@ document.addEventListener('DOMContentLoaded', function() {
     sentenceToggle.checked = sentenceToggleState;
 });
   
-  // 保存主题设置
-  document.getElementById('themeForm').addEventListener('submit', function(event) {
-    event.preventDefault();  // 防止表单默认提交
-  
-    // 获取选择的主题
-    const selectedTheme = document.getElementById('themeSelect').value;
-  
-    // 保存到 localStorage
-    localStorage.setItem('theme', selectedTheme);
-  
-    // 应用新的主题
-    document.body.setAttribute('data-theme', selectedTheme);
-  
-    // 提示用户保存成功
-    alert("主题已保存！");
-  });
+// 保存主题设置
+document.getElementById('themeForm').addEventListener('submit', function(event) {
+  event.preventDefault();  // 防止表单默认提交
+
+  // 获取选择的主题
+  const selectedTheme = document.getElementById('themeSelect').value;
+
+  // 保存到 localStorage
+  localStorage.setItem('theme', selectedTheme);
+
+  // 应用新的主题
+  document.body.setAttribute('data-theme', selectedTheme);
+
+  // 提示用户保存成功
+  alert("主题已保存！");
+});
 
   // 按回车键时触发搜索
   searchInput.addEventListener("keydown", (event) => {

@@ -131,6 +131,7 @@ function generateExampleSentence(word) {
   .then(data => {
     clearInterval(dotInterval);  // 停止句点变化
     if (data.choices && data.choices.length > 0) {
+      console.log(data.choices[0].message.content);
       exampleSentenceElement.innerHTML = `${data.choices[0].message.content}`;
       exampleSentenceElement.classList.remove("text-gray-400"); // 移除灰色文本样式
     } else {

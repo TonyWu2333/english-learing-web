@@ -1,5 +1,7 @@
 let words = [];
 const wordListElement = document.getElementById("wordList");
+const articleElement = document.getElementById("article");
+const articleTextElement = document.getElementById("articleText");
 
 let currentPage = 1;
 const wordsPerPage = 12;
@@ -69,11 +71,78 @@ function displayWordList() {
       wordCard.classList.remove('opacity-0', 'translate-y-10');
       wordCard.classList.add('opacity-100', 'translate-y-0');
     }, 1 * index); // 每个卡片延迟0.1秒出现
-  });
 
+    
+
+
+  });
+  const wordString = paginatedWords.map(item => item.title).join(", ");
+  console.log(wordString);
+  articleElement.classList.remove("opacity-0");
+  articleElement.classList.add("opacity-100");
+  generateArticle(wordString);
   updatePagination();
   // 添加事件监听器
   addEventListeners();
+}
+
+// 更新生成例句的函数
+function generateArticle(words) {
+
+  // 从 localStorage 获取 API 密钥和模型名称
+  const apiKey = localStorage.getItem('apiKey');
+  const modelName = localStorage.getItem('modelName');
+
+  // 如果没有找到 API 密钥或模型名称，提示用户
+  if (!apiKey || !modelName) {
+    articleTextElement.textContent = "未找到API密钥或模型名称，请在设置中输入相关信息。";
+    return;
+  }
+
+  // 初始化计数器和句点
+  let dotCount = 1;
+  const loadingText = "AI生成中";
+  articleTextElement.textContent = loadingText + ".".repeat(dotCount);
+  articleTextElement.classList.add("text-gray-400"); // 给“AI生成中”添加灰色文本样式
+  
+  // 使用定时器动态增加句点
+  const dotInterval = setInterval(() => {
+    dotCount = (dotCount % 3) + 1;  // 控制句点数量循环在1至3之间
+    articleTextElement.textContent = loadingText + ".".repeat(dotCount);
+  }, 500);  // 每500ms更新一次
+
+  // 调用API生成例句
+  fetch("https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": `${apiKey}`,  // 使用从 localStorage 获取的 API 密钥
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      "model": modelName,  // 使用从 localStorage 获取的模型名称
+      "messages": [{ "role": "user", "content": `请写一篇全英文的文章(100词左右)，必须用到以下单词 ${words}，且这些单词要在文中用<b>标粗` }],
+      "stream": false,
+      "temperature": 1.3
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    clearInterval(dotInterval);  // 停止句点变化
+    if (data.choices && data.choices.length > 0) {
+      console.log(data.choices[0].message.content);
+      articleTextElement.innerHTML = `${data.choices[0].message.content}`;
+      articleTextElement.classList.remove("text-gray-400"); // 移除灰色文本样式
+    } else {
+      articleTextElement.textContent = "无法获取例句";
+      articleTextElement.classList.remove("text-gray-400");
+    }
+  })
+  .catch(error => {
+    clearInterval(dotInterval);  // 停止句点变化
+    console.error("Error generating article:", error);
+    articleTextElement.textContent = "获取例句失败";
+    articleTextElement.classList.remove("text-gray-400");
+  });
 }
 
 function updatePagination() {
@@ -86,19 +155,6 @@ function updatePagination() {
   // 更新 URL 中的页码，使用浏览器的 History API
   history.replaceState(null, null, `?page=${currentPage}`);
 }
-
-// 在页面加载时，读取 URL 参数来确定当前页
-document.addEventListener('DOMContentLoaded', function() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const page = parseInt(urlParams.get('page'), 10);
-
-  // 如果 URL 中有有效的页码参数，设置为当前页
-  if (page && page > 0 && page <= Math.ceil(words.length / wordsPerPage)) {
-    currentPage = page;
-  }
-
-  displayWordList();
-});
 
 // 添加跳转功能
 document.getElementById("jumpBtn").addEventListener("click", () => {

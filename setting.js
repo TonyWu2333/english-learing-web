@@ -24,13 +24,22 @@ document.getElementById('apiKeyForm').addEventListener('submit', function(event)
     alert("设置已保存！");
   });
 
-// 加载主题并应用
+// 加载并应用主题和选项
 document.addEventListener('DOMContentLoaded', function() {
     // 从 localStorage 获取已保存的主题
     const savedTheme = localStorage.getItem('theme') || 'emerald';  // 默认主题是 emerald
     document.body.setAttribute('data-theme', savedTheme);
     document.getElementById('themeSelect').value = savedTheme;
-  });
+
+    // 获取复选框元素
+    const sentenceToggle = document.getElementById('sentenceToggle');
+
+    // 假设 sentenceToggleState 是你从 localStorage 中读取的布尔值
+    let sentenceToggleState = localStorage.getItem('sentenceToggle') === 'true';
+
+    // 根据读取的状态设置复选框的选中状态
+    sentenceToggle.checked = sentenceToggleState;
+});
   
   // 保存主题设置
   document.getElementById('themeForm').addEventListener('submit', function(event) {
@@ -67,3 +76,10 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
   }
+
+
+const sentenceToggle = document.getElementById('sentenceToggle');
+// 监听开关状态变化，保存到localStorage
+sentenceToggle.addEventListener('change', () => {
+  localStorage.setItem('sentenceToggle', sentenceToggle.checked);
+});

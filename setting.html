@@ -54,9 +54,18 @@
           </label>
           <input id="modelNameInput" type="text" placeholder="请输入模型名称" class="input input-bordered w-full" />
         </div>
+        <!-- 新增开关选项：是否开启连词造句 -->
+        <div class="form-control mb-4">
+          <label class="label">
+            <span class="label-text">是否开启连词造句</span>
+          </label>
+            <!-- 开关 -->
+            <input type="checkbox" id="sentenceToggle" class="toggle" />
+        </div>
         <button type="submit" class="btn btn-primary w-full">保存设置</button>
       </form>
     </div>
+
 
     <!-- 主题设置表单 -->
     <div class="card w-96 bg-base-100 shadow-xl mx-auto p-5 m-8">

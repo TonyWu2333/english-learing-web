@@ -9,6 +9,7 @@ const wordsPerPage = 12;
 // 从浏览器本地存储加载熟记和收藏数据
 let memorizedWords = JSON.parse(localStorage.getItem('memorizedWords')) || [];
 let favoriteWords = JSON.parse(localStorage.getItem('favoriteWords')) || [];
+let sentenceToggle = (localStorage.getItem('sentenceToggle') === 'true');
 
 // 加载主题并应用
 document.addEventListener('DOMContentLoaded', function() {
@@ -76,11 +77,14 @@ function displayWordList() {
 
 
   });
-  const wordString = paginatedWords.map(item => item.title).join(", ");
-  console.log(wordString);
-  articleElement.classList.remove("opacity-0");
-  articleElement.classList.add("opacity-100");
-  generateArticle(wordString);
+  if(sentenceToggle){
+    const wordString = paginatedWords.map(item => item.title).join(", ");
+    console.log(wordString);
+    articleElement.classList.remove("opacity-0");
+    articleElement.classList.add("opacity-100");
+    generateArticle(wordString);
+  }
+ 
   updatePagination();
   // 添加事件监听器
   addEventListeners();

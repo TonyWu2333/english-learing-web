@@ -6,7 +6,8 @@ const articleTextElement = document.getElementById("articleText");
 let currentPage = 1;
 const wordsPerPage = 12;
 
-// 从浏览器本地存储加载收藏数据
+// 从浏览器本地存储加载熟记和收藏数据
+let memorizedWords = JSON.parse(localStorage.getItem('memorizedWords')) || [];
 let favoriteWords = JSON.parse(localStorage.getItem('favoriteWords')) || [];
 let sentenceToggle = (localStorage.getItem('sentenceToggle') === 'true');
 
@@ -197,5 +198,67 @@ function addEventListeners() {
       return;
     }
   }
+
+
+
+
+// 导出数据
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const data = {
+    memorizedWords: memorizedWords,
+    favoriteWords: favoriteWords
+  };
+  
+  // 转换数据为 JSON 格式
+  const dataStr = JSON.stringify(data);
+
+  // 创建一个 Blob 对象并生成下载链接
+  const blob = new Blob([dataStr], { type: 'application/json' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'wordData.json';
+  
+  // 触发下载
+  link.click();
+});
+
+// 导入数据
+document.getElementById("importBtn").addEventListener("click", () => {
+  // 创建一个文件选择器来选择 JSON 文件
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  
+  input.addEventListener('change', event => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        try {
+          // 读取文件内容并解析 JSON 数据
+          const importedData = JSON.parse(e.target.result);
+          
+          // 更新 localStorage 中的内容
+          memorizedWords = importedData.memorizedWords || [];
+          favoriteWords = importedData.favoriteWords || [];
+          localStorage.setItem('memorizedWords', JSON.stringify(memorizedWords));
+          localStorage.setItem('favoriteWords', JSON.stringify(favoriteWords));
+
+          // 更新页面中的单词卡片列表
+          displayWordList();
+        } catch (error) {
+          alert("上传出现错误！"+error);
+        }
+      };
+
+      // 读取选中的文件
+      reader.readAsText(file);
+    }
+  });
+
+  // 触发文件选择框
+  input.click();
+});
 
 fetchWords();

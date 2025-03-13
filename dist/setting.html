@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>背单词</title>
+  <title>VocabSpark</title>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -11,33 +11,36 @@
 </head>
 <body class="bg-gray-200" data-theme="emerald">
 
-  <!-- 导航栏 -->
-  <div class="navbar bg-base-100 shadow-sm">
-    <div class="flex-1 text-left">
-      <a class="btn btn-ghost text-xl">T-ON-Y の English Learning 小站</a>
+  <!-- 侧边栏 -->
+  <div class="sidebar w-48 bg-base-100 h-screen p-4 shadow-md fixed">
+    <div class="text-xl font-semibold mb-4">
+      VocabSpark
     </div>
-    <div class="flex-1 text-center">
-      <input id="searchInput" type="text" placeholder="搜索词库内单词并回车" class="input input-bordered w-1/2" />
+
+    <!-- 搜索框 -->
+    <div class="mb-4">
+      <input id="searchInput" type="text" placeholder="搜索单词并回车" class="input input-bordered w-full max-w-xs" />
     </div>
-    <div class="flex-1 text-right">
-      <div class="flex items-center justify-end space-x-4">
-        <!-- 使用 flex-row 来确保链接是水平排列的 -->
-        <ul class="menu menu-horizontal px-1 inline-flex space-x-1">
-          <li><a href="index.html">卡片</a></li>
-          <li><a href="list.html">列表</a></li>
-          <li><a href="star.html">收藏</a></li>
-          <li><a href="tick.html">熟记</a></li>
-          <li><a href="setting.html">设置</a></li>
-        </ul>
-        <button id="exportBtn" class="btn btn-sm btn-primary mx-2">导出数据</button>
-        <label id="importBtn" class="btn btn-sm btn-secondary">导入数据</label>
-        <input type="file" id="importFile" class="hidden" accept=".json" />
-      </div>
+
+    <!-- 导航菜单 -->
+    <ul class="menu menu-vertical space-y-4">
+      <li><a href="index.html">卡片</a></li>
+      <li><a href="list.html">列表</a></li>
+      <li><a href="star.html">收藏</a></li>
+      <li><a href="tick.html">熟记</a></li>
+      <li><a href="setting.html">设置</a></li>
+    </ul>
+
+    <!-- 导入导出按钮 -->
+    <div class="mt-8">
+      <button id="exportBtn" class="btn btn-sm btn-primary w-full mb-2">导出数据</button>
+      <label id="importBtn" class="btn btn-sm btn-secondary w-full">导入数据</label>
+      <input type="file" id="importFile" class="hidden" accept=".json" />
     </div>
   </div>
 
   <!-- 主内容区 -->
-  <div class="items-center justify-center min-h-screen">
+  <div class="ml-48 flex-1 p-8 min-h-screen">
     <!-- 模型设置表单 -->
     <div class="card w-96 bg-base-100 shadow-xl mx-auto p-5 m-8">
       <h2 class="text-xl mb-4">模型设置</h2>
@@ -63,13 +66,11 @@
           <label class="label">
             <span class="label-text">是否开启连词造句</span>
           </label>
-            <!-- 开关 -->
-            <input type="checkbox" id="sentenceToggle" class="toggle" />
+          <input type="checkbox" id="sentenceToggle" class="toggle" />
         </div>
         <button type="submit" class="btn btn-primary w-full">保存设置</button>
       </form>
     </div>
-
 
     <!-- 主题设置表单 -->
     <div class="card w-96 bg-base-100 shadow-xl mx-auto p-5 m-8">

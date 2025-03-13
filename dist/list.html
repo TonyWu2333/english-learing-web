@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VocabSpark</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.2/themes.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="bg-gray-200 min-h-screen flex" data-theme="emerald">
+
+  <!-- 侧边栏（固定位置） -->
+  <div class="sidebar w-48 bg-base-100 h-screen p-4 shadow-md fixed">
+    <div class="text-xl font-semibold mb-4">
+      VocabSpark
+    </div>
+
+    <!-- 搜索框 -->
+    <div class="mb-4">
+      <input id="searchInput" type="text" placeholder="搜索单词并回车" class="input input-bordered w-full max-w-xs" />
+    </div>
+
+    <!-- 导航菜单 -->
+    <ul class="menu menu-vertical space-y-4">
+      <li><a href="index.html">卡片</a></li>
+      <li><a href="list.html">列表</a></li>
+      <li><a href="star.html">收藏</a></li>
+      <li><a href="tick.html">熟记</a></li>
+      <li><a href="setting.html">设置</a></li>
+    </ul>
+
+    <!-- 导入导出按钮 -->
+    <div class="mt-8">
+      <button id="exportBtn" class="btn btn-sm btn-primary w-full mb-2">导出数据</button>
+      <label id="importBtn" class="btn btn-sm btn-secondary w-full">导入数据</label>
+      <input type="file" id="importFile" class="hidden" accept=".json" />
+    </div>
+  </div>
+
+  <!-- 主内容区（让出侧边栏宽度，并可以滚动） -->
+  <div class="flex-1 p-4 overflow-auto bg-gray-100 ml-48">
+    <h1 class="text-2xl font-semibold mb-6 text-center">全部单词</h1>
+    <!-- 单词列表 -->
+    <div id="wordList" class="space-y-3">
+      <!-- JS 动态填充 -->
+    </div>
+
+    <!-- 分页组件 -->
+    <div class="flex justify-center items-center mt-6 p-5">
+      <div class="join">
+        <button id="prevPage" class="join-item btn btn-xs">«</button>
+        <span id="paginationInfo" class="join-item btn btn-xs">1 / 1</span>
+        <button id="nextPage" class="join-item btn btn-xs">»</button>
+      </div>
+
+      <!-- 手动跳转输入框 -->
+      <div class="ml-4 flex items-center justify-center">
+        <input id="pageInput" type="number" min="1" class="input input-bordered w-16 text-sm" placeholder="跳转" />
+        <button id="jumpBtn" class="btn btn-xs btn-primary ml-2">跳转</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="list.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "VocabSpark",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "packager": "electron-packager ./ VocabSpark --platform=win32 --icon=./dist/favicon.ico --arch=x64 --overwrite"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^35.0.1"
+  },
+  "dependencies": {
+    "electron": "^35.0.1"
+  }
+}
